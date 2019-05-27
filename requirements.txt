@@ -1,0 +1,7 @@
+scraperwiki
+lxml
+cssselect
+pandas
+wget
+BeautifulSoup4
+tqdm
