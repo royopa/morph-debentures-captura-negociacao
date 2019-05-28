@@ -38,7 +38,7 @@ def process_file_debentures(url):
     print('Processando arquivo', name_file)
     process_file(path_file)
     # remove processed file
-    # os.remove(path_file)
+    os.remove(path_file)
 
 
 def process_file(file_path):
