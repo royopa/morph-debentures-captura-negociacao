@@ -86,14 +86,11 @@ def process_file(file_path):
 
 
 def main():
-    # format the name of database used for morph.io
-    os.environ['SCRAPERWIKI_DATABASE_NAME'] = 'sqlite:///data.sqlite'
-    
     # create download folder
     create_download_folder()
 
     dt_ini = datetime(2010, 1, 1)
-    #dt_ini = datetime(2018, 5, 24)
+    dt_ini = datetime(2018, 5, 24)
     dt_ini = dt_ini.strftime("%Y%m%d")
     
     dt_fim = datetime.today()
