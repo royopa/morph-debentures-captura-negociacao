@@ -48,6 +48,13 @@ def process_file(file_path):
         sep='\t'
     )
 
+    df.to_csv(file_path, encoding='utf-8-sig')
+
+    df = pd.read_csv(
+        file_path,
+        encoding='utf-8-sig'
+    )
+    
     print('Importing {} items'.format(len(df)))
 
     # converte para datetime
