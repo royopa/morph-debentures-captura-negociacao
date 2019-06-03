@@ -37,9 +37,6 @@ def convertFileBestGuess(filename):
 
 
 def convertFileWithDetection(fileName):
-    targetFormat = 'utf-8'
-    outputDir = os.path.join('downloads')
-    detector = UniversalDetector()
     print("Converting '" + fileName + "'...")
     format = get_encoding_type(fileName)
     try:
@@ -54,6 +51,8 @@ def convertFileWithDetection(fileName):
 
 
 def writeConversion(file):
+    targetFormat = 'utf-8'
+    outputDir = os.path.join('downloads')
     with codecs.open(outputDir + '/' + fileName, 'w', targetFormat) as targetFile:
         for line in file:
             targetFile.write(line)
@@ -81,7 +80,7 @@ def create_download_folder():
 
 def process_file_debentures(url):
     print('Baixando arquivo', url)
-    name_file = 'debentures_posicao.xls'
+    name_file = 'debentures_posicao.csv'
     path_file = os.path.join('downloads', name_file)
     # download file
     download_file(url, path_file)
