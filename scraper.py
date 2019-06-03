@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
+from __future__ import with_statement
 import requests
 import os
 import pandas as pd
 import scraperwiki
 from tqdm import tqdm
 from datetime import datetime
-from __future__ import with_statement
 import sys
 import codecs
 from chardet.universaldetector import UniversalDetector
