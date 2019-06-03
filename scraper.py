@@ -12,52 +12,6 @@ import codecs
 from chardet.universaldetector import UniversalDetector
 
 
-def get_encoding_type(current_file):
-    detector = UniversalDetector()
-    detector.reset()
-    for line in file(current_file):
-        detector.feed(line)
-        if detector.done: break
-    detector.close()
-    return detector.result['encoding']
-
-
-def convertFileBestGuess(filename):
-    targetFormat = 'utf-8'
-    outputDir = os.path.join('downloads')
-    sourceFormats = ['ascii', 'iso-8859-1']
-    for format in sourceFormats:
-        try:
-            with codecs.open(fileName, 'rU', format) as sourceFile:
-                writeConversion(sourceFile)
-                print('Done.')
-                return
-        except UnicodeDecodeError:
-            pass
-
-
-def convertFileWithDetection(fileName):
-    print("Converting '" + fileName + "'...")
-    format = get_encoding_type(fileName)
-    try:
-        with codecs.open(fileName, 'rU', format) as sourceFile:
-            writeConversion(sourceFile)
-            print('Done.')
-            return
-    except UnicodeDecodeError:
-        pass
-
-    print("Error: failed to convert '" + fileName + "'.")
-
-
-def writeConversion(file):
-    targetFormat = 'utf-8'
-    outputDir = os.path.join('downloads')
-    with codecs.open(outputDir + '/' + fileName, 'w', targetFormat) as targetFile:
-        for line in file:
-            targetFile.write(line)
-
-
 def download_file(url, file_name):
     response = requests.get(url, stream=True)
     with open(file_name, "wb") as handle:
@@ -86,8 +40,14 @@ def process_file_debentures(url):
     download_file(url, path_file)
     # process file
     print('Processando arquivo', name_file)
-    # convert file to UTF-8    
-    convertFileWithDetection(path_file)
+    
+    # convert file to utf-8
+    sourceEncoding = "iso-8859-1"
+    targetEncoding = "utf-8"
+    source = open(path_file)
+    target = open(path_file, "w")
+    target.write(unicode(source.read(), sourceEncoding).encode(targetEncoding))
+
     # process file 
     process_file(path_file)
     # remove processed file
