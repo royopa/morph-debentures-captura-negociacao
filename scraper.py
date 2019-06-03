@@ -58,7 +58,7 @@ def process_file(file_path):
     df = pd.read_csv(
         file_path,
         skiprows=2,
-        encoding='iso-8859-1',
+        #encoding='iso-8859-1',
         sep='\t'
     )
 
