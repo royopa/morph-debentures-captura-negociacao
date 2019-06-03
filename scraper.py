@@ -13,6 +13,7 @@ from chardet.universaldetector import UniversalDetector
 
 
 def get_encoding_type(current_file):
+    detector = UniversalDetector()
     detector.reset()
     for line in file(current_file):
         detector.feed(line)
@@ -24,7 +25,6 @@ def get_encoding_type(current_file):
 def convertFileBestGuess(filename):
     targetFormat = 'utf-8'
     outputDir = os.path.join('downloads')
-    detector = UniversalDetector()
     sourceFormats = ['ascii', 'iso-8859-1']
     for format in sourceFormats:
         try:
