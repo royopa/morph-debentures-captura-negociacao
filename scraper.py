@@ -95,7 +95,6 @@ def main():
     create_download_folder()
 
     dt_ini = datetime(2010, 1, 1)
-    dt_ini = datetime(2018, 5, 24)
     dt_ini = dt_ini.strftime("%Y%m%d")
     
     dt_fim = datetime.today()
