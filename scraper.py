@@ -104,7 +104,7 @@ def main():
     url_base = 'http://www.debentures.com.br/exploreosnd/consultaadados/mercadosecundario/precosdenegociacao_e.asp'
     url = '{}?op_exc=Nada&emissor=&isin=&ativo=&dt_ini={}&dt_fim={}'.format(url_base, dt_ini, dt_fim)
     
-    process_file_debentures(url)
+    process_file(url)
 
 
 if __name__ == '__main__':
