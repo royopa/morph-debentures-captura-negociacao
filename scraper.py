@@ -15,7 +15,7 @@ from chardet.universaldetector import UniversalDetector
 def download_file(url, file_name):
     response = requests.get(url, stream=True)
     with open(file_name, "wb") as handle:
-        for data in tqdm(response.iter_content()):
+        for data in response.iter_content():
             handle.write(data)
     handle.close()
 
@@ -32,69 +32,60 @@ def create_download_folder():
         print("Directory", dirName, "already exists")
 
 
-def process_file_debentures(url):
-    print('Baixando arquivo', url)
-    name_file = 'debentures_posicao.csv'
-    path_file = os.path.join('downloads', name_file)
-    # download file
-    download_file(url, path_file)
-    # process file
-    print('Processando arquivo', name_file)
-    
-    # convert file to utf-8
-    sourceEncoding = "iso-8859-1"
-    targetEncoding = "utf-8"
-    source = open(path_file)
-    target = open(path_file, "w")
-    target.write(unicode(source.read(), sourceEncoding).encode(targetEncoding))
-
-    # process file 
-    process_file(path_file)
-    # remove processed file
-    os.remove(path_file)
-
-
 def process_file(file_path):
     df = pd.read_csv(
         file_path,
         skiprows=2,
-        #encoding='iso-8859-1',
+        encoding='iso-8859-1',
         sep='\t'
     )
 
+    df = df.rename(columns={
+        u'Data':"data",
+        u'Emissor':"emissor",
+        u'C\xf3digo do Ativo':"co_ativo",
+        u'ISIN':"isin",
+        u'Quantidade':"quantidade",
+        u'N\xfamero de Neg\xf3cios':"nu_negocios",
+        u'PU M\xednimo':"pu_minimo",
+        u'PU M\xe9dio':"pu_medio",
+        u'PU M\xe1ximo':"pu_maximo",
+        u'% PU da Curva':"pu_curva"
+    })
+    
     print('Importing {} items'.format(len(df)))
 
     # converte para datetime
-    df['Data'] =  pd.to_datetime(df['Data'], format='%d/%m/%Y').dt.date
+    df['data'] =  pd.to_datetime(df['data'], format='%d/%m/%Y').dt.date
     # formata o campo para float
-    df['PU Médio'] = df['PU Médio'].str.replace('.', '')
-    df['PU Médio'] = df['PU Médio'].str.replace(',', '.')
-    df['PU Médio'] = pd.to_numeric(df['PU Médio'], errors='coerce')
+    df['pu_medio'] = df['pu_medio'].str.replace('.', '')
+    df['pu_medio'] = df['pu_medio'].str.replace(',', '.')
+    df['pu_medio'] = pd.to_numeric(df['pu_medio'], errors='coerce')
     # formata o campo para float
-    df['PU Mínimo'] = df['PU Mínimo'].str.replace('.', '')
-    df['PU Mínimo'] = df['PU Mínimo'].str.replace(',', '.')
-    df['PU Mínimo'] = pd.to_numeric(df['PU Mínimo'], errors='coerce')
+    df['pu_minimo'] = df['pu_minimo'].str.replace('.', '')
+    df['pu_minimo'] = df['pu_minimo'].str.replace(',', '.')
+    df['pu_minimo'] = pd.to_numeric(df['pu_minimo'], errors='coerce')
     # formata o campo para float
-    df['PU Máximo'] = df['PU Máximo'].str.replace('.', '')
-    df['PU Máximo'] = df['PU Máximo'].str.replace(',', '.')
-    df['PU Máximo'] = pd.to_numeric(df['PU Máximo'], errors='coerce')    
+    df['pu_maximo'] = df['pu_maximo'].str.replace('.', '')
+    df['pu_maximo'] = df['pu_maximo'].str.replace(',', '.')
+    df['pu_maximo'] = pd.to_numeric(df['pu_maximo'], errors='coerce')
     # formata o campo para float
-    df['% PU da Curva'] = df['% PU da Curva'].str.replace('.', '')
-    df['% PU da Curva'] = df['% PU da Curva'].str.replace(',', '.')
-    df['% PU da Curva'] = pd.to_numeric(df['% PU da Curva'], errors='coerce')    
+    df['pu_curva'] = df['pu_curva'].str.replace('.', '')
+    df['pu_curva'] = df['pu_curva'].str.replace(',', '.')
+    df['pu_curva'] = pd.to_numeric(df['pu_curva'], errors='coerce')
 
     for index, row in df.iterrows():
         data = {
-            'data': row['Data'],
-            'no_emissor': row['Emissor'],
-            'co_ativo': row['Código do Ativo'],
-            'isin': row['ISIN'],
-            'nu_quantidade': row['Quantidade'],
-            'nu_negocios': row['Número de Negócios'],
-            'pu_minimo': row['PU Mínimo'],
-            'pu_medio': row['PU Médio'],
-            'pu_maximo': row['PU Máximo'],
-            'pu_curva': row['% PU da Curva']
+            'data': row['data'],
+            'no_emissor': row['emissor'],
+            'co_ativo': row['co_ativo'],
+            'isin': row['isin'],
+            'nu_quantidade': row['quantidade'],
+            'nu_negocios': row['nu_negocios'],
+            'pu_minimo': row['pu_minimo'],
+            'pu_medio': row['pu_medio'],
+            'pu_maximo': row['pu_maximo'],
+            'pu_curva': row['pu_curva']
         }
         scraperwiki.sqlite.save(unique_keys=['data', 'co_ativo', 'isin'], data=data)
 
