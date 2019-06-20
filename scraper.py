@@ -10,6 +10,7 @@ from datetime import datetime
 import sys
 import codecs
 from chardet.universaldetector import UniversalDetector
+import os
 
 
 def download_file(url, file_name):
@@ -33,6 +34,11 @@ def create_download_folder():
 
 
 def process_file(file_path):
+    # morph.io requires this db filename, but scraperwiki doesn't nicely
+    # expose a way to alter this. So we'll fiddle our environment ourselves
+    # before our pipeline modules load.
+    os.environ['SCRAPERWIKI_DATABASE_NAME'] = 'sqlite:///data.sqlite'
+
     df = pd.read_csv(
         file_path,
         skiprows=2,
@@ -96,14 +102,17 @@ def main():
 
     dt_ini = datetime(2010, 1, 1)
     dt_ini = dt_ini.strftime("%Y%m%d")
-    
+
     dt_fim = datetime.today()
     dt_fim = dt_fim.strftime("%Y%m%d")
-    
+
     url_base = 'http://www.debentures.com.br/exploreosnd/consultaadados/mercadosecundario/precosdenegociacao_e.asp'
     url = '{}?op_exc=Nada&emissor=&isin=&ativo=&dt_ini={}&dt_fim={}'.format(url_base, dt_ini, dt_fim)
-    
+
     process_file(url)
+
+    # rename file
+    os.rename('scraperwiki.sqlite', 'data.sqlite')
 
 
 if __name__ == '__main__':
