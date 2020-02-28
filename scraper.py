@@ -19,6 +19,7 @@ def download_file(url, file_name):
         for data in response.iter_content():
             handle.write(data)
     handle.close()
+    return True
 
 
 def create_download_folder():
@@ -33,7 +34,12 @@ def create_download_folder():
         print("Directory", dirName, "already exists")
 
 
-def process_file(file_path):
+def process_file(url):
+    file_path = os.path.join("dados.csv")
+    if download_file(url, file_path) is False:
+        print("Erro ao baixar arquivo")
+        return False
+  
     # morph.io requires this db filename, but scraperwiki doesn't nicely
     # expose a way to alter this. So we'll fiddle our environment ourselves
     # before our pipeline modules load.
@@ -100,7 +106,7 @@ def main():
     # create download folder
     create_download_folder()
 
-    dt_ini = datetime(1900, 1, 1)
+    dt_ini = datetime(1990, 1, 1)
     dt_ini = dt_ini.strftime("%Y%m%d")
 
     dt_fim = datetime.today()
@@ -110,6 +116,7 @@ def main():
     url = '{}?op_exc=Nada&emissor=&isin=&ativo=&dt_ini={}&dt_fim={}'.format(url_base, dt_ini, dt_fim)
 
     print(url)
+    
     process_file(url)
 
     # rename file
