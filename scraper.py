@@ -100,7 +100,7 @@ def main():
     # create download folder
     create_download_folder()
 
-    dt_ini = datetime(2019, 1, 1)
+    dt_ini = datetime(2000, 1, 1)
     dt_ini = dt_ini.strftime("%Y%m%d")
 
     dt_fim = datetime.today()
