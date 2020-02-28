@@ -14,6 +14,7 @@ import os
 
 
 def download_file(url, file_name):
+    print("Downloading {}".format(url)
     response = requests.get(url, stream=True)
     with open(file_name, "wb") as handle:
         for data in response.iter_content():
@@ -114,8 +115,6 @@ def main():
 
     url_base = 'http://www.debentures.com.br/exploreosnd/consultaadados/mercadosecundario/precosdenegociacao_e.asp'
     url = '{}?op_exc=Nada&emissor=&isin=&ativo=&dt_ini={}&dt_fim={}'.format(url_base, dt_ini, dt_fim)
-
-    print(url)
     
     process_file(url)
 
