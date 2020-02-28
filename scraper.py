@@ -91,21 +91,11 @@ def process_file(url):
     df['pu_curva'] = df['pu_curva'].str.replace('.', '')
     df['pu_curva'] = df['pu_curva'].str.replace(',', '.')
     df['pu_curva'] = pd.to_numeric(df['pu_curva'], errors='coerce')
+    
+    for row in df.to_dict('records'):
+        scraperwiki.sqlite.save(unique_keys=df.columns.values.tolist(), data=row)
 
-    for index, row in df.iterrows():
-        data = {
-            'data': row['data'],
-            'no_emissor': row['emissor'],
-            'co_ativo': row['co_ativo'],
-            'isin': row['isin'],
-            'nu_quantidade': row['quantidade'],
-            'nu_negocios': row['nu_negocios'],
-            'pu_minimo': row['pu_minimo'],
-            'pu_medio': row['pu_medio'],
-            'pu_maximo': row['pu_maximo'],
-            'pu_curva': row['pu_curva']
-        }
-        scraperwiki.sqlite.save(unique_keys=['data', 'co_ativo', 'isin'], data=data)
+    print('{} Registros importados com sucesso'.format(len(df)))
 
 
 def main():
