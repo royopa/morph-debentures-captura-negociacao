@@ -13,12 +13,17 @@ from chardet.universaldetector import UniversalDetector
 import os
 
 
-def download_file(url, file_name):
-    print("Downloading {}".format(url)
+def download_file(url, file_path):
     response = requests.get(url, stream=True)
-    with open(file_name, "wb") as handle:
+    
+    if response.status_code != 200:
+        print('Arquivo não encontrado', url, response.status_code)
+        return False
+
+    with open(file_path, "wb") as handle:
+        print('Downloading', url)
         for data in response.iter_content():
-            handle.write(data)
+            handle.write(data)    
     handle.close()
     return True
 
