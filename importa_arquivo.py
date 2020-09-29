@@ -75,6 +75,10 @@ def main():
         scraperwiki.sqlite.save(
             unique_keys=['dt_referencia', 'co_ativo'], data=row)
 
+        if index > 0 and index % 1500 == 0:
+            print('Aguarda 30 segundos para não dar lock na base')
+            time.sleep(30)
+
     print('{} Registros importados com sucesso'.format(len(df)))
 
 
