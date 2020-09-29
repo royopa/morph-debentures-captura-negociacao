@@ -1,2 +1,10 @@
 # Ignore output of scraper
 data.sqlite
+scraperwiki.sqlite
+scraperwiki.sqlite-journal
+data.sqlite-journal
+downloads/*
+dados.csv
+downloads/
+bases/
+bases/*
