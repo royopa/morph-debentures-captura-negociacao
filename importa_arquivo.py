@@ -6,6 +6,7 @@ import time
 from datetime import datetime
 
 import pandas as pd
+os.environ['SCRAPERWIKI_DATABASE_NAME'] = 'sqlite:///data.sqlite'
 import scraperwiki
 from chardet.universaldetector import UniversalDetector
 
@@ -68,7 +69,7 @@ def main():
     print('Salvando resultado capturado no arquivo', file_path)
     df.to_csv(file_path, mode='a', index=False)
 
-    print('Importing {} items'.format(len(df)))
+    #print('Importing {} items'.format(len(df)))
 
     for index, row in enumerate(df.to_dict('records')):
         print(f'{index+1} de {len(df)}')
