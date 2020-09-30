@@ -3,7 +3,7 @@ from __future__ import print_function, with_statement
 
 import os
 from datetime import datetime
-
+import shutil
 import importa_arquivo
 import utils
 
@@ -39,3 +39,7 @@ def main():
 
 if __name__ == '__main__':
     main()
+    # rename file
+    print('Renomeando arquivo sqlite')
+    if os.path.exists('scraperwiki.sqlite'):
+        shutil.copy('scraperwiki.sqlite', 'data.sqlite')
