@@ -82,7 +82,7 @@ def isbizday(dt_referencia):
 
 
 def prepare_download_folder(name_download_folder):
-    path_download = os.path.join('downloads')
+    path_download = os.path.join(name_download_folder)
     if os.path.exists(path_download):
         shutil.rmtree(path_download)
         os.makedirs(path_download)
