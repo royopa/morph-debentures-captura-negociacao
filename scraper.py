@@ -20,6 +20,7 @@ def process_file(url):
 
 
 def main():
+    os.environ['SCRAPERWIKI_DATABASE_NAME'] = 'sqlite:///data.sqlite'
     utils.prepare_download_folder('bases')
     utils.prepare_download_folder('downloads')
 
