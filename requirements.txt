@@ -5,3 +5,4 @@ pandas
 wget
 BeautifulSoup4
 tqdm
+bizdays
