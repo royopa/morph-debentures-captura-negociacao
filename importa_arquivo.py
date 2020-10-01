@@ -72,7 +72,7 @@ def main():
     #print('Importing {} items'.format(len(df)))
 
     for index, row in enumerate(df.to_dict('records')):
-        print(f'{index+1} de {len(df)}')
+        # print(f'{index+1} de {len(df)}')
         scraperwiki.sqlite.save(
             unique_keys=['dt_referencia', 'co_ativo'], data=row)
 
